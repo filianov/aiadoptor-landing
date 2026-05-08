@@ -1,0 +1,20 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Filyanov;Pavel;;;
+FN:Pavel Filyanov
+ORG:AIAdoptor
+TITLE:AI Workflow Consultant
+TEL;TYPE=CELL,VOICE:+436606061110
+EMAIL;TYPE=INTERNET:aiadoptor@gmail.com
+ADR;TYPE=WORK:;;1190 Vienna;Vienna;;1190;Austria
+URL:https://aiadoptor.com/
+item1.URL:https://wa.me/436606061110
+item1.X-ABLabel:WhatsApp
+item2.URL:https://t.me/aiadoptor
+item2.X-ABLabel:Telegram
+item3.URL:https://x.com/aiadoptor
+item3.X-ABLabel:X
+item4.URL:https://ua.linkedin.com/in/павел-фильянов-2507ba58
+item4.X-ABLabel:LinkedIn
+NOTE:AIAdoptor - practical AI workflows for professionals and small businesses in Vienna.
+END:VCARD

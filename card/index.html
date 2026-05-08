@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Pavel Filyanov electronic business card with contact QR code and AIAdoptor website QR code."
+    />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://aiadoptor.com/card/" />
+    <link rel="icon" type="image/png" href="/assets/aiadoptor-favicon.png" />
+    <title>Pavel Filyanov | AIAdoptor Business Card</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #111111;
+        --muted: #626262;
+        --line: #dedbd4;
+        --paper: #f6f2ea;
+        --white: #ffffff;
+        --red: #d71920;
+        --charcoal: #171717;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: var(--paper);
+        color: var(--ink);
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .page {
+        min-height: 100vh;
+        padding: 36px;
+        display: grid;
+        place-items: center;
+      }
+
+      .card {
+        width: min(1120px, 100%);
+        background: var(--white);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 24px 80px rgba(20, 20, 20, 0.12);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(320px, 0.78fr);
+        min-height: 520px;
+      }
+
+      .identity {
+        padding: 46px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 40px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .brand img {
+        width: 168px;
+        height: auto;
+      }
+
+      .eyebrow {
+        margin: 34px 0 12px;
+        color: var(--red);
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        max-width: 720px;
+        font-size: clamp(42px, 7vw, 82px);
+        line-height: 0.94;
+        letter-spacing: 0;
+      }
+
+      .subtitle {
+        margin: 22px 0 0;
+        max-width: 640px;
+        color: var(--muted);
+        font-size: 20px;
+        line-height: 1.5;
+      }
+
+      .contacts {
+        display: grid;
+        gap: 10px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        color: var(--charcoal);
+        font-size: 17px;
+      }
+
+      .contacts a {
+        text-decoration: none;
+        border-bottom: 1px solid rgba(215, 25, 32, 0.28);
+      }
+
+      .qr-panel {
+        background: var(--charcoal);
+        color: var(--white);
+        padding: 38px;
+        display: grid;
+        align-content: center;
+        gap: 20px;
+      }
+
+      .qr-card {
+        background: var(--white);
+        color: var(--ink);
+        border-radius: 8px;
+        padding: 20px;
+        display: grid;
+        grid-template-columns: 132px minmax(0, 1fr);
+        gap: 18px;
+        align-items: center;
+      }
+
+      .qr-card img {
+        width: 132px;
+        height: 132px;
+        display: block;
+      }
+
+      .qr-card h2 {
+        margin: 0 0 8px;
+        font-size: 20px;
+        line-height: 1.15;
+      }
+
+      .qr-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 22px;
+      }
+
+      .button {
+        min-height: 44px;
+        padding: 12px 16px;
+        border-radius: 6px;
+        border: 1px solid var(--charcoal);
+        text-decoration: none;
+        font-weight: 800;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .button.primary {
+        background: var(--charcoal);
+        color: var(--white);
+      }
+
+      .footer {
+        border-top: 1px solid var(--line);
+        padding: 18px 46px;
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      @media (max-width: 860px) {
+        .page {
+          padding: 16px;
+        }
+
+        .hero {
+          grid-template-columns: 1fr;
+        }
+
+        .identity,
+        .qr-panel {
+          padding: 28px;
+        }
+
+        .qr-card {
+          grid-template-columns: 1fr;
+        }
+
+        .qr-card img {
+          width: min(220px, 100%);
+          height: auto;
+        }
+
+        .footer {
+          padding: 18px 28px;
+          flex-direction: column;
+        }
+      }
+
+      @media print {
+        body {
+          background: var(--white);
+        }
+
+        .page {
+          padding: 0;
+        }
+
+        .card {
+          box-shadow: none;
+          border: 0;
+        }
+
+        .actions {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <article class="card" aria-label="Pavel Filyanov electronic business card">
+        <section class="hero">
+          <div class="identity">
+            <div>
+              <a class="brand" href="https://aiadoptor.com/" aria-label="AIAdoptor website">
+                <img src="/assets/aiadoptor-logo.png" alt="AIAdoptor" />
+              </a>
+              <p class="eyebrow">AI Workflow Studio in Vienna</p>
+              <h1>Pavel Filyanov</h1>
+              <p class="subtitle">
+                AI Workflow Consultant helping international professionals and small businesses save time with practical AI workflows.
+              </p>
+            </div>
+
+            <div>
+              <ul class="contacts" aria-label="Contact details">
+                <li><a href="mailto:aiadoptor@gmail.com">aiadoptor@gmail.com</a></li>
+                <li><a href="tel:+436606061110">+43 660 606 1110</a></li>
+                <li><a href="https://wa.me/436606061110">WhatsApp</a> · <a href="https://t.me/aiadoptor">Telegram</a></li>
+                <li><a href="https://aiadoptor.com/">aiadoptor.com</a></li>
+                <li>1190 Vienna, Austria</li>
+              </ul>
+              <div class="actions">
+                <a class="button primary" href="/pavel-filyanov.vcf" download>Add contact</a>
+                <a class="button" href="https://aiadoptor.com/">Open website</a>
+              </div>
+            </div>
+          </div>
+
+          <aside class="qr-panel" aria-label="QR codes">
+            <div class="qr-card">
+              <img src="/assets/qr-pavel-filyanov-contact.svg" alt="QR code to add Pavel Filyanov contact" />
+              <div>
+                <h2>Add contact</h2>
+                <p>Scan to save phone, email, WhatsApp, Telegram, LinkedIn and website to your phone book.</p>
+              </div>
+            </div>
+            <div class="qr-card">
+              <img src="/assets/qr-aiadoptor-website.svg" alt="QR code to open AIAdoptor website" />
+              <div>
+                <h2>Open AIAdoptor</h2>
+                <p>Scan to visit the AIAdoptor website and explore practical AI workflows in Vienna.</p>
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        <footer class="footer">
+          <span>AIAdoptor — practical AI workflows for real life and small business.</span>
+          <span>English · Russian · Ukrainian</span>
+        </footer>
+      </article>
+    </main>
+  </body>
+</html>
