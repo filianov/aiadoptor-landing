@@ -353,6 +353,15 @@ Zoom meeting/webinar URL for the first event
 Preferred final behavior: embedded form or external form links
 ```
 
+Current active URLs:
+
+```text
+Calendly booking URL: https://calendly.com/aiadoptor/free-20-min-ai-workflow-review
+Tally workshop URL: https://tally.so/r/J9XApR
+Tally webinar URL: https://tally.so/r/aQKYeb
+Tally audit/sprint URL: https://tally.so/r/lbKdrk
+```
+
 ## Recommended launch order
 
 1. Calendly + Zoom for 20-minute reviews.

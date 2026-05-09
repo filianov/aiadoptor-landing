@@ -93,6 +93,13 @@ Recommended first implementation:
 - Workshop CTA: Tally workshop form
 - Contact form: Tally embedded form synced to Google Sheets and Brevo
 
+## Active URLs
+
+- Review booking: `https://calendly.com/aiadoptor/free-20-min-ai-workflow-review`
+- Workshop registration: `https://tally.so/r/J9XApR`
+- Webinar registration / waitlist: `https://tally.so/r/aQKYeb`
+- Audit / sprint inquiry: `https://tally.so/r/lbKdrk`
+
 ## Data privacy notes
 
 Add a privacy policy before collecting personal data.
