@@ -584,10 +584,12 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
   });
 });
 
-contactForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const formData = new FormData(contactForm);
-  window.location.href = buildMailto(formData);
-  formStatus.textContent = getTranslation("form.status");
-  contactForm.reset();
-});
+if (contactForm) {
+  contactForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const formData = new FormData(contactForm);
+    window.location.href = buildMailto(formData);
+    formStatus.textContent = getTranslation("form.status");
+    contactForm.reset();
+  });
+}
