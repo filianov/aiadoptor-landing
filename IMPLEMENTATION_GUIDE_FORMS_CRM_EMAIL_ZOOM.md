@@ -213,6 +213,78 @@ Then the site buttons can be replaced with real form links or embedded Tally for
 
 ## Этап 4. Настроить Brevo
 
+Status on 2026-05-10:
+
+- Contact attributes created: `PHONE`, `PREFERRED_LANGUAGE`, `LEAD_TYPE`, `TOPIC`, `SOURCE_PAGE`, `CONSENT_NEWSLETTER`, `CONSENT_FOLLOWUP`.
+- Existing default attribute confirmed: `FIRSTNAME`.
+- Sender confirmed as verified: `AIAdoptor Studio <aiadoptor@gmail.com>`.
+- Lists created in `Your First Folder`:
+  - `AIAdoptor - All Leads` — ID `3`
+  - `AIAdoptor - Review Requests` — ID `4`
+  - `AIAdoptor - Workshop Registrants` — ID `5`
+  - `AIAdoptor - Webinar Registrants` — ID `6`
+  - `AIAdoptor - Audit Sprint Leads` — ID `7`
+  - `AIAdoptor - Newsletter Opt-in` — ID `8`
+- Native visual templates in the Brevo editor are optional backlog. Current launch confirmations are implemented through Make HTTP + Brevo transactional API, with copy stored in `BREVO_EMAIL_TEMPLATES.md`.
+- Make connection created: `My Brevo connection`.
+- Native Make `Brevo > Create a Contact` was tested but not saved into the live scenario: Make's editor rejected the dynamic Tally email formula as `Value is not a valid email address`. The working Tally -> Google Sheets scenario was preserved by discarding the failed module edits.
+- A separate Make scenario now syncs new Google Sheets CRM rows to Brevo:
+  `AIAdoptor Sheets to Brevo Sync`.
+- The sync uses `HTTP > Make a request` with the saved `Brevo API Key` credential and Brevo endpoint `POST /v3/contacts`.
+- Contacts are created or updated with `updateEnabled: true` and added to Brevo list `AIAdoptor - All Leads` (ID `3`).
+- Successful sync test passed at `2026-05-10 19:51:54 Europe/Vienna`: Make history status `Success`, 3 operations.
+- The sync scenario is active and scheduled every 15 minutes.
+- Make mapping note: use live mapper tokens from Google Sheets, for example `email (G)` and `name (F)`. Typed placeholders such as `{{1.email}}` or `{{1.G}}` look valid in the editor but resolve to empty values in the HTTP request.
+- Internal notification module added: Brevo transactional email API sends a notification to `aiadoptor@gmail.com` after a new CRM row is synced to Brevo.
+- Brevo list router added after the notification module.
+- Active list routes:
+  - `form_type = audit_sprint` -> `AIAdoptor - Audit Sprint Leads` (ID `7`)
+  - `form_type = webinar` -> `AIAdoptor - Webinar Registrants` (ID `6`)
+  - `form_type = workshop` -> `AIAdoptor - Workshop Registrants` (ID `5`)
+  - `form_type = review` -> `AIAdoptor - Review Requests` (ID `4`)
+- Fresh Google Sheets route test passed on `2026-05-10 21:33-21:34 Europe/Vienna`:
+  - `review` route reached Brevo list ID `4`
+  - `workshop` route reached Brevo list ID `5`
+  - `webinar` route reached Brevo list ID `6`
+  - `audit_sprint` route reached Brevo list ID `7`
+- Test note: keep the `Leads` sheet continuous. An empty row between old and new leads can stop the Google Sheets watcher from seeing rows below it.
+- Zoom Meeting created for workshop/webinar:
+  - Event: `AI for Life & Work in Austria`
+  - Time: `15 May 2026, 18:00 Europe/Vienna`
+  - Join link: `https://us06web.zoom.us/j/82657817294?pwd=gIHhx7i3Fsrm9pVbQhnnlpMhtD8kd2.1`
+  - Meeting ID: `826 5781 7294`
+  - Passcode: `930990`
+- Workshop and webinar confirmation emails are connected in the Make scenario through Brevo transactional API `POST /v3/smtp/email`:
+  - workshop route after Brevo list ID `5` sends `Your AIAdoptor workshop registration is received`.
+  - webinar route after Brevo list ID `6` sends `Your AIAdoptor webinar registration is received`.
+- Both confirmation modules use sender `AIAdoptor Studio <aiadoptor@gmail.com>` and live Google Sheets mapper token `email (G)` as recipient.
+- Make confirmation emails for workshop and webinar were updated with the live Zoom details on `2026-05-10`.
+- Confirmation delivery test passed on `2026-05-10 22:33 Europe/Vienna`:
+  - workshop test row reached Gmail at `aiadoptor+confirm-workshop-20260510@gmail.com`.
+  - webinar test row reached Gmail at `aiadoptor+confirm-webinar-20260510@gmail.com`.
+- Live Zoom details delivery test passed on `2026-05-11`:
+  - workshop test row reached Gmail at `aiadoptor+zoom-workshop-20260511@gmail.com` with the Zoom link, Meeting ID `826 5781 7294`, and passcode `930990`.
+  - webinar test row reached Gmail at `aiadoptor+zoom-webinar-20260511@gmail.com` with the Zoom link, Meeting ID `826 5781 7294`, and passcode `930990`.
+- Confirmation email copy is stored in `BREVO_EMAIL_TEMPLATES.md`.
+- Brevo scheduled email campaigns added on `2026-05-11` for workshop/webinar registrants:
+  - `AIAdoptor Workshop Webinar Reminder 24h - 15 May 2026` -> lists ID `5` and `6`, scheduled for `14 May 2026, 18:00 Europe/Vienna`.
+  - `AIAdoptor Workshop Webinar Reminder 1h - 15 May 2026` -> lists ID `5` and `6`, scheduled for `15 May 2026, 17:00 Europe/Vienna`.
+  - `AIAdoptor Workshop Webinar Follow-up - 16 May 2026` -> lists ID `5` and `6`, scheduled for `16 May 2026, 10:00 Europe/Vienna`.
+- Tally budget cleanup added on `2026-05-11`: in the live `Integration Webhooks` scenario, Google Sheets `notes (V)` maps known audit/sprint budget option ID `81fbff34-ab1f-4d46-b625-18af6ec9c957` to `1001 - 3000 USD`; unknown values fall back to the original Tally value.
+- Remaining integration backlog:
+  - clean up the workshop Tally -> Sheets mapping so the newsletter checkbox writes directly to `consent_newsletter (Q)` instead of relying on the current `topic (M)` fallback.
+  - optional: run one live submission through each public Tally form after the site launch.
+
+Audit on 2026-05-11:
+
+- Core launch flow is complete and tested: public Tally forms, Google Sheets CRM, Brevo sync, list routing by `form_type`, internal notification, workshop/webinar confirmation emails, and live Zoom details delivery.
+- The `Newsletter Opt-in` list exists and the Make route is configured. It accepts `consent_newsletter (Q) = TRUE` and, for the current workshop form, the working fallback `topic (M) = TRUE`.
+- Fresh end-to-end newsletter opt-in test passed on `2026-05-11`: Tally submission `aiadoptor+newsletter-id8-pass-1778490438344@gmail.com` -> `Integration Webhooks` run `de8c89a2b9bf44f9a65d694f8809115c` at `11:09:55` -> `AIAdoptor Sheets to Brevo Sync` run `2debaedd13dc47abb1c0b1050d35022d` at `11:09:58`.
+- In the successful sync run, route `5th Newsletter opt-in` executed HTTP module `13`: `POST https://api.brevo.com/v3/contacts/lists/8/contacts/add`, body `{"ids":[16]}`, response status `201`.
+- Mapping caveat: the workshop form currently writes the newsletter checkbox correctly into `topic (M)`; `consent_newsletter (Q)` still needs a later cleanup because the previous typed formula produced text instead of a live Make mapper token.
+- Reminder/follow-up emails are scheduled in Brevo for the 15 May 2026 event: 24-hour reminder, 1-hour reminder, and post-event follow-up.
+- Budget mapping caveat resolved for the known audit/sprint option ID: `81fbff34-ab1f-4d46-b625-18af6ec9c957` -> `1001 - 3000 USD`.
+
 Create contact attributes:
 
 ```text
@@ -269,6 +341,43 @@ Important:
 
 ## Этап 5. Настроить Make automation
 
+Status on 2026-05-10:
+
+- Scenario created: `Integration Webhooks`.
+- Scenario is active and runs `Immediately as data arrives`.
+- Custom webhook created: `AIAdoptor Tally Lead Intake`.
+- Webhook URL: `https://hook.eu1.make.com/9zovvqu4rmil24kddcqjnn03z12ctaq3`.
+- Google Sheets module is connected to `/ AIAdoptor CRM`, sheet `Leads`.
+- Test webhook submission was accepted by Make and processed into Google Sheets module successfully.
+- Real Tally audit/sprint submission test passed at `2026-05-10 16:41:40 Europe/Vienna`: Make run `53cbbbd5d3614fc7aed0e5adcd823fe0` finished with `Success`, 2 operations, and inserted row `3` into Google Sheets.
+- Confirmed mapped fields in the successful run: `created_at`, `source`, `source_page`, `form_type`, `name`, `email`, `phone_whatsapp`, `company`, `preferred_language`, `topic`, `service_interest`, `message`, `consent_followup`, `status`.
+- Mapping note: Tally dropdown fields can return selected option IDs. The known audit/sprint `Budget range` option ID `81fbff34-ab1f-4d46-b625-18af6ec9c957` is now mapped in `notes (V)` to the visible text `1001 - 3000 USD`; unknown values remain unchanged.
+- A duplicate Google Sheets module remains on the canvas, but it is blocked by the filter `Stop duplicate Google Sheets module`, so it does not create a second row.
+- Tally webhooks connected and enabled for:
+  - `AI Workflow Audit / Sprint Inquiry` — `https://tally.so/r/lbKdrk`
+  - `AI Starter Workshop Registration` — `https://tally.so/r/J9XApR`
+  - `AI Webinar Registration / Waitlist` — `https://tally.so/r/aQKYeb`
+- Scenario created and activated: `AIAdoptor Sheets to Brevo Sync`.
+- `AIAdoptor Sheets to Brevo Sync` runs every 15 minutes:
+  `Google Sheets - Watch New Rows` -> `HTTP - Make a request`.
+- Successful Brevo sync test passed at `2026-05-10 19:51:54 Europe/Vienna`: Make history status `Success`, 3 operations, 2.7 KB data transfer.
+- Internal notification email added through Brevo transactional email API to `aiadoptor@gmail.com`.
+- Brevo list assignment router added:
+  - audit/sprint route to Brevo list ID `7`
+  - webinar route to Brevo list ID `6`
+  - workshop route to Brevo list ID `5`
+  - review route to Brevo list ID `4`
+- Brevo transactional confirmation emails added:
+  - workshop confirmation after the workshop route.
+  - webinar / waitlist confirmation after the webinar route.
+- Confirmation email delivery verified in Gmail on `2026-05-10 22:33 Europe/Vienna` for both plus-address test recipients.
+- Live Zoom details verified in Gmail on `2026-05-11` for fresh workshop and webinar plus-address test recipients.
+- Fresh Google Sheets route test passed on `2026-05-10 21:33-21:34 Europe/Vienna`.
+- Newsletter opt-in route added and verified on `2026-05-11`: `consent_newsletter (Q) = TRUE` or workshop fallback `topic (M) = TRUE` -> Brevo list ID `8`.
+- Fresh public Tally opt-in test passed at `2026-05-11 11:09:55-11:09:58 Europe/Vienna`; Make HTTP module `13` posted to Brevo list ID `8` and returned status `201`.
+- Remaining Make subtasks: clean up the workshop newsletter checkbox mapping into `consent_newsletter (Q)` and optionally run final live Tally submissions after site launch.
+- The `Phone / WhatsApp` field issue is resolved for the audit/sprint form: it now accepts the international test value `+436606061110`.
+
 Minimum scenario:
 
 ```text
@@ -312,6 +421,15 @@ Important implementation choice:
 
 ## Этап 6. Zoom setup
 
+Status on 2026-05-10:
+
+- Zoom Meeting created:
+  - `AI for Life & Work in Austria`
+  - `15 May 2026, 18:00 Europe/Vienna`
+  - `https://us06web.zoom.us/j/82657817294?pwd=gIHhx7i3Fsrm9pVbQhnnlpMhtD8kd2.1`
+  - Meeting ID `826 5781 7294`, passcode `930990`.
+- The live Zoom details are now included in the Make/Brevo confirmation emails for workshop and webinar.
+
 First version:
 
 1. Use Zoom Meeting, not Zoom Webinar.
@@ -328,6 +446,16 @@ Advanced version later:
 4. Use Zoom registration reports after the event.
 
 ## Этап 7. Update website
+
+Status on 2026-05-10:
+
+- CTA links checked in all language entry pages:
+  - review buttons point to Calendly.
+  - workshop buttons point to Tally workshop form.
+  - audit/sprint offer buttons point to Tally audit/sprint form.
+- Privacy Policy page added at `/privacy/` with English, German, Russian and Ukrainian sections.
+- Footer privacy links added to all landing page languages and to the presentation card.
+- Sitemap updated with `/privacy/`.
 
 After receiving live links, update:
 
