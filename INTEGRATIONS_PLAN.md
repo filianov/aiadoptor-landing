@@ -104,8 +104,8 @@ Current Make status on 2026-05-10:
 - Internal notification module added after Brevo contact sync: Brevo transactional email API `POST /v3/smtp/email` sends a notification to `aiadoptor@gmail.com` with a link to the CRM sheet.
 - Router added after the internal notification module for Brevo list distribution.
 - Brevo list route added: `form_type = audit_sprint` -> list `AIAdoptor - Audit Sprint Leads` (ID `7`).
-- Brevo list route added: `form_type = webinar` -> list `AIAdoptor - Webinar Registrants` (ID `6`).
-- Brevo list route added: `form_type = workshop` -> list `AIAdoptor - Workshop Registrants` (ID `5`).
+- Brevo list route added: `form_type = AI Webinar Registration / Waitlist` -> list `AIAdoptor - Webinar Registrants` (ID `6`).
+- Brevo list route added: `form_type = AI Starter Workshop Registration` -> list `AIAdoptor - Workshop Registrants` (ID `5`).
 - Brevo list route added: `form_type = review` -> list `AIAdoptor - Review Requests` (ID `4`).
 - Fresh Google Sheets route test passed on `2026-05-10 21:33-21:34 Europe/Vienna`:
   - `review` -> list `AIAdoptor - Review Requests` (ID `4`)
@@ -120,10 +120,12 @@ Current Make status on 2026-05-10:
   - Meeting ID: `826 5781 7294`
   - Passcode: `930990`
 - Brevo transactional confirmation emails are connected in Make:
-  - `form_type = workshop` -> workshop confirmation email after Brevo list ID `5`.
-  - `form_type = webinar` -> webinar / waitlist confirmation email after Brevo list ID `6`.
+  - `form_type = AI Starter Workshop Registration` -> workshop confirmation email after Brevo list ID `5`.
+  - `form_type = AI Webinar Registration / Waitlist` -> webinar / waitlist confirmation email after Brevo list ID `6`.
 - Confirmation emails use Brevo transactional API `POST /v3/smtp/email`, sender `AIAdoptor Studio <aiadoptor@gmail.com>`, and the live Google Sheets mapper token `email (G)` as recipient.
 - Make confirmation emails for workshop and webinar were updated with the live Zoom details on `2026-05-10`.
+- Post-publication confirmation delivery was repaired and verified on `2026-05-11`: the public Tally forms send full form names in `form_type (E)`, so the Make route filters were updated from the old test values `workshop` / `webinar` to the live values above.
+- Fresh test run `ed89febe9b484d3b896c38a1b3389027` at `2026-05-11 16:52 Europe/Vienna` processed one workshop and one webinar submission, passed both routes, added both newsletter opt-ins, and delivered both participant confirmation emails in Gmail.
 - Confirmation delivery test passed on `2026-05-10 22:33 Europe/Vienna`:
   - workshop test row -> `aiadoptor+confirm-workshop-20260510@gmail.com`, Gmail search returned `1-1 of 1`.
   - webinar test row -> `aiadoptor+confirm-webinar-20260510@gmail.com`, Gmail search returned `1-1 of 1`.

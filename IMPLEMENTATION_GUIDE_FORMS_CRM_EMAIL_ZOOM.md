@@ -239,8 +239,8 @@ Status on 2026-05-10:
 - Brevo list router added after the notification module.
 - Active list routes:
   - `form_type = audit_sprint` -> `AIAdoptor - Audit Sprint Leads` (ID `7`)
-  - `form_type = webinar` -> `AIAdoptor - Webinar Registrants` (ID `6`)
-  - `form_type = workshop` -> `AIAdoptor - Workshop Registrants` (ID `5`)
+  - `form_type = AI Webinar Registration / Waitlist` -> `AIAdoptor - Webinar Registrants` (ID `6`)
+  - `form_type = AI Starter Workshop Registration` -> `AIAdoptor - Workshop Registrants` (ID `5`)
   - `form_type = review` -> `AIAdoptor - Review Requests` (ID `4`)
 - Fresh Google Sheets route test passed on `2026-05-10 21:33-21:34 Europe/Vienna`:
   - `review` route reached Brevo list ID `4`
@@ -259,6 +259,11 @@ Status on 2026-05-10:
   - webinar route after Brevo list ID `6` sends `Your AIAdoptor webinar registration is received`.
 - Both confirmation modules use sender `AIAdoptor Studio <aiadoptor@gmail.com>` and live Google Sheets mapper token `email (G)` as recipient.
 - Make confirmation emails for workshop and webinar were updated with the live Zoom details on `2026-05-10`.
+- Post-publication fix on `2026-05-11`: live public Tally forms write full form names into `form_type (E)`, not the earlier canonical test values `workshop` / `webinar`. The Make filters were updated to the active list route values above.
+- Fresh production confirmation delivery test passed on `2026-05-11 16:52 Europe/Vienna`:
+  - Tally workshop submission `aiadoptor+fixed-workshop-20260511@gmail.com` reached Make run `ed89febe9b484d3b896c38a1b3389027`, passed `Workshop leads`, and Gmail received `Your AIAdoptor workshop registration is received`.
+  - Tally webinar submission `aiadoptor+fixed-webinar-20260511@gmail.com` reached the same Make run, passed `Webinar leads`, and Gmail received `Your AIAdoptor webinar registration is received`.
+  - Both emails included the live Zoom link for `AI for Life & Work in Austria`, `15 May 2026, 18:00 Europe/Vienna`.
 - Confirmation delivery test passed on `2026-05-10 22:33 Europe/Vienna`:
   - workshop test row reached Gmail at `aiadoptor+confirm-workshop-20260510@gmail.com`.
   - webinar test row reached Gmail at `aiadoptor+confirm-webinar-20260510@gmail.com`.
@@ -375,7 +380,7 @@ Status on 2026-05-10:
 - Fresh Google Sheets route test passed on `2026-05-10 21:33-21:34 Europe/Vienna`.
 - Newsletter opt-in route added and verified on `2026-05-11`: `consent_newsletter (Q) = TRUE` or workshop fallback `topic (M) = TRUE` -> Brevo list ID `8`.
 - Fresh public Tally opt-in test passed at `2026-05-11 11:09:55-11:09:58 Europe/Vienna`; Make HTTP module `13` posted to Brevo list ID `8` and returned status `201`.
-- Remaining Make subtasks: clean up the workshop newsletter checkbox mapping into `consent_newsletter (Q)` and optionally run final live Tally submissions after site launch.
+- Remaining Make subtasks: clean up the workshop newsletter checkbox mapping into `consent_newsletter (Q)`.
 - The `Phone / WhatsApp` field issue is resolved for the audit/sprint form: it now accepts the international test value `+436606061110`.
 
 Minimum scenario:
