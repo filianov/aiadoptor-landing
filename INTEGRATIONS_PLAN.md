@@ -139,16 +139,15 @@ Current Make status on 2026-05-10:
   - Post-event follow-up: `AIAdoptor Workshop Webinar Follow-up - 16 May 2026`, lists ID `5` and `6`, scheduled `16 May 2026, 10:00 Europe/Vienna`.
 - Tally budget cleanup was added in the live `Integration Webhooks` scenario on `2026-05-11`: Google Sheets `notes (V)` now maps known audit/sprint budget option ID `81fbff34-ab1f-4d46-b625-18af6ec9c957` to visible text `1001 - 3000 USD`; unknown values fall back to the original Tally value.
 - Remaining integration backlog:
-  - clean up the workshop newsletter checkbox mapping so it writes directly to `consent_newsletter (Q)`.
   - optionally run final live submissions through each public Tally form after site launch.
 
 Audit on 2026-05-11:
 
 - Core launch flow is complete: public forms, Google Sheets CRM, Brevo contact sync, Brevo list routing by `form_type`, internal notification, workshop/webinar confirmation emails, and live Zoom link delivery are all configured and tested.
-- The `Newsletter Opt-in` route is configured and verified in Make: `consent_newsletter (Q) = TRUE` or current workshop fallback `topic (M) = TRUE` -> Brevo list ID `8`.
+- The `Newsletter Opt-in` route is configured and verified in Make: `consent_newsletter (Q) = TRUE` -> Brevo list ID `8`. The previous workshop fallback via `topic (M)` was removed on `2026-05-12`.
 - Fresh end-to-end test passed on `2026-05-11`: Tally submission `aiadoptor+newsletter-id8-pass-1778490438344@gmail.com` -> `Integration Webhooks` run `de8c89a2b9bf44f9a65d694f8809115c` at `11:09:55` -> `AIAdoptor Sheets to Brevo Sync` run `2debaedd13dc47abb1c0b1050d35022d` at `11:09:58`.
 - The successful sync run executed HTTP module `13`: `POST https://api.brevo.com/v3/contacts/lists/8/contacts/add`, body `{"ids":[16]}`, response status `201`.
-- Mapping caveat: the current workshop form's newsletter checkbox is reliably available in `topic (M)`; a later cleanup should move that value into `consent_newsletter (Q)` with a proper live Make mapper token.
+- Newsletter mapping cleanup passed on `2026-05-12`: workshop submission `aiadoptor+qsheet20260512@gmail.com` reached `Integration Webhooks` run `4dfcd030df3745bb8f655351c02fbd2b` at `10:29:20`; `consent_newsletter (Q)` is populated by `=INDIRECT("M"&ROW())`. The sync run `85986be26814493c9795b03da36eec54` at `10:37:15` posted contact ID `27` to Brevo list ID `8` and returned status `201`.
 - Reminder/follow-up emails are implemented as Brevo scheduled campaigns for the 15 May 2026 workshop/webinar event.
 - Budget mapping caveat resolved for the known audit/sprint option ID: `81fbff34-ab1f-4d46-b625-18af6ec9c957` -> `1001 - 3000 USD`.
 - Website CTA links point to the live Calendly and Tally destinations. The old direct contact form is not present in the HTML pages.

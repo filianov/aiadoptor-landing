@@ -277,16 +277,15 @@ Status on 2026-05-10:
   - `AIAdoptor Workshop Webinar Follow-up - 16 May 2026` -> lists ID `5` and `6`, scheduled for `16 May 2026, 10:00 Europe/Vienna`.
 - Tally budget cleanup added on `2026-05-11`: in the live `Integration Webhooks` scenario, Google Sheets `notes (V)` maps known audit/sprint budget option ID `81fbff34-ab1f-4d46-b625-18af6ec9c957` to `1001 - 3000 USD`; unknown values fall back to the original Tally value.
 - Remaining integration backlog:
-  - clean up the workshop Tally -> Sheets mapping so the newsletter checkbox writes directly to `consent_newsletter (Q)` instead of relying on the current `topic (M)` fallback.
   - optional: run one live submission through each public Tally form after the site launch.
 
 Audit on 2026-05-11:
 
 - Core launch flow is complete and tested: public Tally forms, Google Sheets CRM, Brevo sync, list routing by `form_type`, internal notification, workshop/webinar confirmation emails, and live Zoom details delivery.
-- The `Newsletter Opt-in` list exists and the Make route is configured. It accepts `consent_newsletter (Q) = TRUE` and, for the current workshop form, the working fallback `topic (M) = TRUE`.
+- The `Newsletter Opt-in` list exists and the Make route is configured. It now accepts only `consent_newsletter (Q) = TRUE`; the old `topic (M)` fallback was removed on `2026-05-12`.
 - Fresh end-to-end newsletter opt-in test passed on `2026-05-11`: Tally submission `aiadoptor+newsletter-id8-pass-1778490438344@gmail.com` -> `Integration Webhooks` run `de8c89a2b9bf44f9a65d694f8809115c` at `11:09:55` -> `AIAdoptor Sheets to Brevo Sync` run `2debaedd13dc47abb1c0b1050d35022d` at `11:09:58`.
 - In the successful sync run, route `5th Newsletter opt-in` executed HTTP module `13`: `POST https://api.brevo.com/v3/contacts/lists/8/contacts/add`, body `{"ids":[16]}`, response status `201`.
-- Mapping caveat: the workshop form currently writes the newsletter checkbox correctly into `topic (M)`; `consent_newsletter (Q)` still needs a later cleanup because the previous typed formula produced text instead of a live Make mapper token.
+- Newsletter mapping cleanup passed on `2026-05-12`: workshop submission `aiadoptor+qsheet20260512@gmail.com` reached `Integration Webhooks` run `4dfcd030df3745bb8f655351c02fbd2b` at `10:29:20`; `consent_newsletter (Q)` is populated by the Google Sheets formula `=INDIRECT("M"&ROW())`, which evaluates the workshop newsletter checkbox value from the same row. The follow-up sync run `85986be26814493c9795b03da36eec54` at `10:37:15` executed HTTP module `13` against Brevo list ID `8` with body `{"ids":[27]}` and response status `201`.
 - Reminder/follow-up emails are scheduled in Brevo for the 15 May 2026 event: 24-hour reminder, 1-hour reminder, and post-event follow-up.
 - Budget mapping caveat resolved for the known audit/sprint option ID: `81fbff34-ab1f-4d46-b625-18af6ec9c957` -> `1001 - 3000 USD`.
 
@@ -378,9 +377,9 @@ Status on 2026-05-10:
 - Confirmation email delivery verified in Gmail on `2026-05-10 22:33 Europe/Vienna` for both plus-address test recipients.
 - Live Zoom details verified in Gmail on `2026-05-11` for fresh workshop and webinar plus-address test recipients.
 - Fresh Google Sheets route test passed on `2026-05-10 21:33-21:34 Europe/Vienna`.
-- Newsletter opt-in route added and verified on `2026-05-11`: `consent_newsletter (Q) = TRUE` or workshop fallback `topic (M) = TRUE` -> Brevo list ID `8`.
+- Newsletter opt-in route added and verified on `2026-05-11`; cleaned up on `2026-05-12` to use only `consent_newsletter (Q) = TRUE` -> Brevo list ID `8`.
 - Fresh public Tally opt-in test passed at `2026-05-11 11:09:55-11:09:58 Europe/Vienna`; Make HTTP module `13` posted to Brevo list ID `8` and returned status `201`.
-- Remaining Make subtasks: clean up the workshop newsletter checkbox mapping into `consent_newsletter (Q)`.
+- Workshop newsletter checkbox cleanup verified on `2026-05-12`: `consent_newsletter (Q)` now drives the Brevo list ID `8` route without `topic (M)` fallback.
 - The `Phone / WhatsApp` field issue is resolved for the audit/sprint form: it now accepts the international test value `+436606061110`.
 
 Minimum scenario:
