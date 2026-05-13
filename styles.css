@@ -290,7 +290,15 @@ h3 {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-bottom: 24px;
+  margin-bottom: 12px;
+}
+
+.hero-microcopy {
+  max-width: 680px;
+  margin: 0 0 24px;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.94rem;
+  font-weight: 760;
 }
 
 .button {
